@@ -24,6 +24,8 @@ Our modified NMF (mNMF) was written in Python 2.7 and tested on Window systems.
     * **Worksheets:** 1.Noisemean, 2.Peakresult, 3.XIC
 3. Three .npz files of V, W, and H matrices
 
+## Installation
+git clone https://github.com/pasrawin/TheModifiedNMF.git
 ## Running
 1. Prepare a directory containing your input files
 2. Define your input files and parameters in ```mNMF00_handler.py```
