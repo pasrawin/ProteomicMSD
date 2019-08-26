@@ -39,6 +39,8 @@ For benchmarking in the paper, there are 2 standard protein mixtures
 * A separation of a thousand ions: 1,057 peptide ions are generated from 476 unique peptides of 4 proteins
 * A separation of nine thousand ions: 9,319 peptide ions are generated from 4,045 unique peptides of 48 proteins
 
+The MS raw data were deposited at the ProteomeXchange Consortium via jPOST partner repository with identifier x.
+
 ## Support
 If you have any questions about mNMF, please contact Pasrawin Taechawattananant (pasrawin@gmail.com)
 
