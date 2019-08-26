@@ -32,7 +32,7 @@ Our modified NMF (mNMF) was written in Python 2.7 and tested on Window systems.
     * The mass spectrograms from different instruments and proteomic experiments provide different features. In order to obtain an optimal result from mNMF, we strongly suggest that the parameters should be carefully set for each observed mass spectrogram. 
     * The *m/z* range, retention time range, smoothing window and shift, bins, *in silico* digestion criteria, number of best peaks reported etc. can be modified easily by replacing default values here.
 3. Run ```python mNMF00_handler.py```
-    * Yor command prompt will show mNMF process from 1 to 9
+    * Yor command prompt will show mNMF process from 1 to 10
 
 ## Benchmark Datasets
 For benchmarking in the paper, there are 2 standard protein mixtures
