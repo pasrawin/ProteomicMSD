@@ -2,9 +2,6 @@ from __future__ import division
 import numpy as np
 import pandas as pd
 from collections import OrderedDict
-from scipy import sparse, stats, spatial, signal
-from sklearn.preprocessing import normalize
-from pyteomics import achrom
 
 from mNMF01_Tools import msconvert_reader, mz_scaling, time_scaling
 from mNMF02_Insilicodigestion import insilico_digest
