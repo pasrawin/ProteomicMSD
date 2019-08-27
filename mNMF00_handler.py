@@ -31,7 +31,6 @@ if defParams_:
     window_slideminute = 12/60 # 0.2 minute
     window = int(window_slideminute*tt) 
     shift = int(window/2) # default shift = 50% of a window = 0.1 minute
-
     globalparam_list = [['mm', 'mrange_min', 'mrange_max', 
                         'mz_range', 'MZ_SCALE',
                         'tt', 'gradient_starttime', 'gradient_endtime',
@@ -41,8 +40,7 @@ if defParams_:
                         mz_range, MZ_SCALE,
                         tt, gradient_starttime, gradient_endtime,
                         gradient_time, TIME_SCALE, 
-                        window, shift]] 
-                
+                        window, shift]]                 
     # amino acid dictionary
     aa_monomass = {
         'A': 71.03711,'C': 103.00919,'D': 115.02694,
@@ -107,18 +105,24 @@ if defParams_:
 # define data
 defData_ = True
 if defData_:
-    msconvert_file = 'Example_athousandions_msconvert.txt' #txt
+    msconvert_file = 'Example_protein4_msconvert.txt' #txt
     theoreticalprotein_file = 'Example_theoreticalproteins.xlsx' #xlsx
     RTcalibration_file = 'Example_RTcalibration.xlsx' #xlsx
     output_file = 'Example_output' #filename
 
 ### 001 msconvert read tool
 print '1 msconvert processing'
-# Vdata_file = msconvert_reader(msconvert_file)
-Vdata_file = "Info_180125_171020stat4prot25ng_MSconverttop20_read.pkl"
+if msconvert_file[-3:] = 'txt':
+    Vdata_file == msconvert_reader(msconvert_file)
+elif msconvert_file[-3:] = 'pkl':
+    Vdata_file == msconvert_file
+else:
+    print ' Warning wrong type of msconvert file'
+    exit()
+
 #### 2 in silico digestion
 print '2 in silico digestion'
-# def in silico digestion parameters
+# def
 misclvge_from, misclvge_to = 0,2
 len_from, len_to = 7,50
 charge_from, charge_to = 2,4
