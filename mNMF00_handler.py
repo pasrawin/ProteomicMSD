@@ -105,7 +105,7 @@ if defParams_:
 # define data
 defData_ = True
 if defData_:
-    msconvert_file = 'Example_protein4_msconvert.txt' #txt
+    msconvert_file = 'Example_mNMF_standard4proteins.pkl' #txt or pkl
     theoreticalprotein_file = 'Example_theoreticalproteins.xlsx' #xlsx
     RTcalibration_file = 'Example_RTcalibration.xlsx' #xlsx
     output_file = 'Example_output' #filename
