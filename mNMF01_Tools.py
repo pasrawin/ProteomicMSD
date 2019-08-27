@@ -67,8 +67,8 @@ def msconvert_reader(msconvert_file):
 	df_ms1.rename(columns=col_set, inplace=True)
 	for ar in ['mzarray', 'intarray']:
 		df_ms1[ar] = df_ms1[ar].apply(lambda x: np.asarray(x.strip().split(" ")).astype(float).tolist())
-	store = df_ms1.to_pickle(msconvert_file[:-4]+'_read.pkl')
-	return str(msconvert_file[:-4]+'_read.pkl')
+	store = df_ms1.to_pickle(msconvert_file[:-4]+'.pkl')
+	return str(msconvert_file[:-4]+'.pkl')
 	
 def mz_index(data_array, mrange_min, mrange_max, mm):
 	# print ' process mz_index'
