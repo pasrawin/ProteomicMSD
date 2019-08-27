@@ -31,15 +31,11 @@ if defParams_:
     window_slideminute = 12/60 # 0.2 minute
     window = int(window_slideminute*tt) 
     shift = int(window/2) # default shift = 50% of a window = 0.1 minute
-    globalparam_list = [['mm', 'mrange_min', 'mrange_max', 
-                        'mz_range', 'MZ_SCALE',
-                        'tt', 'gradient_starttime', 'gradient_endtime',
-                        'gradient_time', 'TIME_SCALE', 
+    globalparam_list = [['mm', 'mrange_min', 'mrange_max', 'mz_range', 'MZ_SCALE',                        
+                        'tt', 'gradient_starttime', 'gradient_endtime', 'gradient_time', 'TIME_SCALE',                         
                         'window', 'shift'],
-                     [mm, mrange_min, mrange_max, 
-                        mz_range, MZ_SCALE,
-                        tt, gradient_starttime, gradient_endtime,
-                        gradient_time, TIME_SCALE, 
+                       [mm, mrange_min, mrange_max, mz_range, MZ_SCALE,                        
+                        tt, gradient_starttime, gradient_endtime, gradient_time, TIME_SCALE,                         
                         window, shift]]                 
     # amino acid dictionary
     aa_monomass = {
@@ -157,8 +153,7 @@ if WithNoiseSubspace_:
 
 ### 5 V_mat Construction
 print '5 V Construction'
-V_mat, globalparam_list, Vmat_mean\
-= expmat_construction(Vdata_file, globalparam_list, charge_list)
+V_mat, globalparam_list, Vmat_mean = expmat_construction(Vdata_file, globalparam_list, charge_list)
 
 ### 6 RT prediction
 print '6 RT prediction'
@@ -170,8 +165,7 @@ else:
     gaussian_peakwidth = 0
 # run
 if WithRTPrediction_:
-    initRT_tuple, initRT_width\
-    = rt_prediction(RTcalibration_file, finalMS1_df)
+    initRT_tuple, initRT_width = rt_prediction(RTcalibration_file, finalMS1_df)
 else:
     initRT_tuple, initRT_width = None, None  
 
@@ -201,6 +195,5 @@ print '9 NMF run and report'
 WithStandardize_ = True
 max_iter = 50 # number of max iteration
 peak_report = 3 # number of best peaks for report
-kl_nmf(V_mat, W_mat, H_mat, cos_mat, prot_peptcount, \
-    weight_est, max_iter, eps, noise_number, noise_mean, Vmat_mean, globalparam_list, isopeak_number,\
-    initRT, output_file, finalMS1_df, peak_report, WithStandardize_)
+kl_nmf(V_mat, W_mat, H_mat, cos_mat, prot_peptcount, weight_est, max_iter, eps, noise_number, noise_mean, Vmat_mean, \
+     globalparam_list, isopeak_number, initRT, output_file, finalMS1_df, peak_report, WithStandardize_)
