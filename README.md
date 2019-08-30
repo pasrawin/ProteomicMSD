@@ -7,7 +7,7 @@ Here, we developed a novel approach based on non-negative matrix factorization, 
 ## Requirements
 Our modified NMF (mNMF) was written in Python 2.7 and tested on Window systems.
 #### Dependencies
-* numpy, pandas, scipy, math, collections, itertools, sklearn, and pyteomics
+* division from future, numpy, pandas, scipy, math, collections, itertools, sklearn, and pyteomics
 
 #### The inputs are: 
 1. A .txt file of LC/MS experiment, converted by ProteoWizard MSconvert, or a .pkl file of LC/MS experiment from mNMF (required)
