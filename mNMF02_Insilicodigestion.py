@@ -2,10 +2,8 @@ from __future__ import division
 import numpy as np
 import pandas as pd
 from collections import Counter
-import random
 import math
 import itertools
-import timeit
 
 ### MAIN ###
 def insilico_digest(file, dictionary_list, param_list, globalparam_list, iso_maxnumber):
@@ -18,14 +16,9 @@ def insilico_digest(file, dictionary_list, param_list, globalparam_list, iso_max
                             iso_maxnumber, charge_from, charge_to)
     insilico_df = comp_calc(insilico_df, aa_composition)
     insilico_df = mzvarmod_calc(insilico_df, aa_varmodmass, globalparam_list, charge_from, charge_to, iso_maxnumber)
-    # print ' chk insilico number:', insilico_df.shape
-    # print ' report time: ', timeit.default_timer()
     insilico_df = iso_calc(insilico_df, el_abundance, iso_maxnumber)
-    # print ' report time: ', timeit.default_timer()
     mz_header, iso_header, charge_list, eachpeptcount_list = label_df(insilico_df, charge_from, charge_to)
-    # print ' report insilico df shape: ', insilico_df.shape
     insilico_number = insilico_df[mz_header].count().sum()
-    # print ' report count all (charged) peptide number: ', insilico_number
     return insilico_df, mz_header, iso_header, charge_list
 
 ### FUNCTIONS ###
@@ -246,8 +239,7 @@ def label_df(M_df, charge_from, charge_to):
 	mz_header, charge_list, eachpeptcount_list = [], [], []
 	for charge in range(charge_from, charge_to):
 		mz_header.append('Mcharge'+str(charge))
-		charge_list.append(charge)
-	
+		charge_list.append(charge)	
 	for index, row in M_df[mz_header].iterrows():
 		eachpeptcount_list.append(row.count())
 
