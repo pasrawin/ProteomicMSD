@@ -27,7 +27,7 @@ Our modified NMF (mNMF) was written in Python 2.7 and tested on Window systems.
 3. Three .npz files of V, W, and H matrices
 
 ## Installation
-```git clone https://github.com/pasrawin/TheModifiedNMF.git```
+```git clone https://github.com/pasrawin/ProteomicNMF.git```
 ## Running
 1. Prepare a directory containing your input files
 2. Define your input file names and parameters in ```mNMF00_handler.py``` 
