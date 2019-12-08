@@ -12,14 +12,14 @@ Our modified NMF (mNMF) was written in Python 2.7 and tested on Window systems.
 #### The inputs are: 
 1. An .mzML or a .txt file of LC/MS experiment converted by ProteoWizard MSconvert, or a .pkl file of mNMF output (required)
     * **Example:** Example_mNMF_standard4proteins.txt
-    * **Example:** Example_mNMF_standard4proteins.pkl (download [here](https://repository.jpostdb.org/). Now available in Reviewer's mode only)
+    * **Example:** Example_mNMF_standard4proteins.pkl (download [here](https://repository.jpostdb.org/preview/10781773045d84a93330fa7). Now only available in Reviewer's mode.)
        * After running mNMF, .pkl will be obtained. You may reuse this in following mNMF run to save the computational time.
 2. A .FASTA or an .xlsx of theoretical proteins and their sequences (required)
     * **Required column names:** Protein, Sequence
-    * **Example:** Example_theoreticalproteins.xlsx
+    * **Example:** Example_theoreticalproteins.fasta or Example_theoreticalproteins.xlsx (available here)
 3. An .xlsx of peptide retention time calibration (optional)
     * **Required column names:** Protein, Sequence, PepRtimeStart, PepRtimePeak, PepRtimeEnd
-    * **Example:** Example_RTcalibration.xlsx
+    * **Example:** Example_RTcalibration.xlsx (available here)
 #### The outputs are: 
 1. A .pkl file of LC/MS experiment
 2. An .xlsx file of NMF result
