@@ -9,10 +9,10 @@ from mNMF01_Tools import smoothingtime_mat
 def nmf_savemat(V_mat, W_mat, Hmat, weight, outfile):
 	# print ' process sparse nmf_savemat all weights: '
 	if V_mat != None:
-		sparse.save_npz(str(outfile)+'_fullVmat.npz', V_mat)
+		sparse.save_npz(str(outfile)+'_Vmat_init.npz', V_mat)
 	if W_mat != None:
-		sparse.save_npz(str(outfile)+'_fullWmat.npz', W_mat)
-	sparse.save_npz(str(outfile)+'_fullHmat_we'+str(weight)+'.npz', Hmat)
+		sparse.save_npz(str(outfile)+'_Wmat_init.npz', W_mat)
+	sparse.save_npz(str(outfile)+'_Hmat_result'+str(weight)+'.npz', Hmat)
 	# print ' report nmf_savemat done: ', timeit.default_timer()
 
 def nmf_identification(outfile, V_mat, W_mat, refresh_H, finalMS1_df,\
@@ -28,12 +28,12 @@ def nmf_identification(outfile, V_mat, W_mat, refresh_H, finalMS1_df,\
 	peptcount_cumsum = np.insert(np.cumsum(prot_peptcount.values), 0, 0)
 
 	writer_ = pd.ExcelWriter(outfile+'.xlsx', engine='xlsxwriter')
-	pd.DataFrame({'noisemean': [noise_mean]}).to_excel(writer_, sheet_name='Noisemean')
+	# pd.DataFrame({'noisemean': [noise_mean]}).to_excel(writer_, sheet_name='Noisemean')
 	timelist_label = []
 	for label in protcount:
-		timelist_label.append(label+str(weight))
-	timelist_label.append('noise'+str(weight))
-	# print ' chk eachprot_timeprofile:', len(eachprot_timeprofile), len(timelist_label)
+		timelist_label.append(label)
+	timelist_label.append('noise')
+	
 	df_eachprot_timeprofile = pd.DataFrame(np.asarray(eachprot_timeprofile).T, columns=[timelist_label])
 	df_eachprot_timeprofile.to_excel(writer_, sheet_name='XIC')
 	
@@ -54,13 +54,12 @@ def report_all(refresh_H, cos_mat, noiseW_list, noise_mean, shift, tt, gradient_
 		eachpeptsum_list.append(eachpept_sum)
 		argrelmax = signal.argrelmax(eachpept_chrom, axis=0, order=2)[0]
 		relmax = eachpept_chrom[argrelmax]
-		argrelmax_sort = argrelmax[np.argsort(-relmax)][:peak_report]	
+		argrelmax_sort = argrelmax[np.argsort(-relmax)][:peak_report]
 		timemax_sort = ((argrelmax_sort+1)*shift/tt) + gradient_starttime		
 		relmax_sort = eachpept_chrom[argrelmax_sort]
 		cosmax_sort = [cos_mat[k,x] for x in argrelmax_sort]
 		for idx, time in enumerate(timemax_sort):
 			peakall_list[idx].append((k, time, relmax_sort[idx], cosmax_sort[idx]))
-
 	idenhead_df = finalMS1_df.loc[:,['prot','pept','mod','charge','mz','isoab0']]
 	idenhead_df.loc[:,'k'] = np.arange(finalMS1_df.shape[0])
 	idenhead_df.loc[:,'sum'] = eachpeptsum_list
@@ -77,7 +76,3 @@ def report_all(refresh_H, cos_mat, noiseW_list, noise_mean, shift, tt, gradient_
 	idenall_df = idenall_df.drop(['k','isoab0'], axis=1)
 
 	return idenall_df
-
-
-
-
