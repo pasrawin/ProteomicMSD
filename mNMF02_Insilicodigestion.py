@@ -23,15 +23,46 @@ def insilico_digest(file, dictionary_list, param_list, globalparam_list, iso_max
 
 ### FUNCTIONS ###
 def df_prep(ref_file):
-	df = pd.read_excel(ref_file)
-	df = df.dropna(axis=0, how='any')
+	if ref_file[-6:] == '.fasta':
+		protein_info, protein_sequence = fasta_read(ref_file)
+		df = pd.DataFrame(list(zip(protein_info, protein_sequence)), columns =['Protein', 'Sequence'])
+		df = df.dropna(axis=0, how='any')
+	else:
+		df = pd.read_excel(ref_file)
+		df = df.dropna(axis=0, how='any')
 	return df
+
+def fasta_read(fasta_file):
+	sequence_templist = []
+	protein_info, protein_sequence = [], []
+	with open(fasta_file) as file:
+	    for line in file:
+	        line = line.strip()
+	        # if nothing, new loop
+	        if not line:
+	           continue
+	        if line.startswith(">"):
+	            sequence_info = line[1:]
+	            if sequence_info not in sequence_templist:
+	            	# join previous protein sequence and clear sequence list
+	                protein_sequence.append(''.join(sequence_templist))
+	                protein_info.append(sequence_info)
+	                sequence_templist = []
+	            # new loop
+	            continue
+	        sequence_templist.append(line)
+		# flush last sequence
+	    if sequence_templist:
+	        protein_sequence.append(''.join(sequence_templist))
+	    # delete first blank
+	    if protein_sequence[0] == '':
+	    	protein_sequence = protein_sequence[1:]
+	return protein_info, protein_sequence
 
 def trypsin_cut(protseq_df, misclvge_from, misclvge_to, len_from, len_to):
 	misclvge_to += 1
 	len_to += 1
 	peptides_report, peptides = {}, []
-
 	for protseq in protseq_df.itertuples():
 		prot_in, seq_in = protseq[1], protseq[2]		
 		# define tryptic site
@@ -56,7 +87,7 @@ def trypsin_cut(protseq_df, misclvge_from, misclvge_to, len_from, len_to):
 						pept_value.append(seq_in[cut_sites[j]:cut_sites[j+1+m]])
 				# dict {key:unique digested peptide}
 				peptides_report.update({prot_m_key:list(set(pept_value))})
-		else: # no trypsic site in the protein sequence
+		else: # no tryptic site in the protein sequence
 		    peptides_report.update({prot_key+ '##0':[seq_in]})
 
 	return peptides_report
@@ -64,7 +95,6 @@ def trypsin_cut(protseq_df, misclvge_from, misclvge_to, len_from, len_to):
 def mz_calc(peptides_report, aa_monomass, aa_fixmodmass, other_mass, globalparam_list, iso_maxnumber, charge_from, charge_to):
 	mrange_min = globalparam_list[1][globalparam_list[0].index('mrange_min')]
 	mrange_max = globalparam_list[1][globalparam_list[0].index('mrange_max')]
-
 	mrange_maxbound = int((mrange_max - (iso_maxnumber/charge_from))*charge_to)
 	charge_to += 1
 	# replace by fix mod
@@ -239,16 +269,10 @@ def label_df(M_df, charge_from, charge_to):
 	mz_header, charge_list, eachpeptcount_list = [], [], []
 	for charge in range(charge_from, charge_to):
 		mz_header.append('Mcharge'+str(charge))
-		charge_list.append(charge)	
+		charge_list.append(charge)
+	
 	for index, row in M_df[mz_header].iterrows():
 		eachpeptcount_list.append(row.count())
 
 	iso_header = [head for head in M_df.columns if 'isoab' in head]
 	return mz_header, iso_header, charge_list, eachpeptcount_list
-
-
-
-
-
-
-
