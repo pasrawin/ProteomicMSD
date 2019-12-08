@@ -31,6 +31,7 @@ def expmat_construction(exp_file, exp_paramlist, charge_list):
 	exp_df['allmz'] = mz_index(exp_df['allmz'].values, mrange_min, mrange_max, mm)
 	exp_df = exp_df[['ind','starttime','allmz','allint']]
 	time_col = []
+	time_col_temp = []
 	for index, row in exp_df.iterrows():
 		# remove out of range m
 		row['allint'] = [i for m, i in zip(row['allmz'], row['allint']) if m >= 0 and m < MZ_SCALE]
@@ -38,7 +39,12 @@ def expmat_construction(exp_file, exp_paramlist, charge_list):
 		# use bincount to sum int at same mz_index to create time_index col with MZ_SCALE length
 		timecol_array = np.bincount(row['allmz'],row['allint'], minlength=(MZ_SCALE))
 		timecol_array[timecol_array < 1] = 0
-		time_col.append(timecol_array) # append each row, int sum
+		time_col_temp.append(timecol_array) # append each row, int sum
+		if index % 500 == 0:
+			time_col.extend(time_col_temp)
+			time_col_temp = []
+	# flush last
+	time_col.extend(time_col_temp)
 	exp_df['allint_overlap'] = time_col
 
 	expdf_row = np.tile(np.arange(MZ_SCALE), exp_df.shape[0])
@@ -51,6 +57,5 @@ def expmat_construction(exp_file, exp_paramlist, charge_list):
 
 	exp_mat = smoothingtime_mat(exp_mat, window, shift)
 	exp_mat, mat_mean = rescale_mat(exp_mat)
-
 	return exp_mat, exp_paramlist, mat_mean
 
