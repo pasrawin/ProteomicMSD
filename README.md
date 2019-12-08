@@ -7,22 +7,22 @@ Here, we developed a novel approach based on non-negative matrix factorization, 
 ## Requirements
 Our modified NMF (mNMF) was written in Python 2.7 and tested on Window systems.
 #### Dependencies
-* division from future, numpy, pandas, scipy, math, collections, itertools, sklearn, and pyteomics
+* division from future, numpy, pandas, scipy, math, collections, itertools, sklearn, gc, and pyteomics
 
 #### The inputs are: 
-1. A .txt file of LC/MS experiment, converted by ProteoWizard MSconvert, or a .pkl file of LC/MS experiment from mNMF (required)
+1. An .mzML or a .txt file of LC/MS experiment converted by ProteoWizard MSconvert, or a .pkl file of mNMF output (required)
     * **Example:** Example_mNMF_standard4proteins.txt
-    * **Example:** Example_mNMF_standard4proteins.pkl (download [here](https://repository.jpostdb.org/))
+    * **Example:** Example_mNMF_standard4proteins.pkl (download [here](https://repository.jpostdb.org/). Now available in Reviewer's mode only)
        * After running mNMF, .pkl will be obtained. You may reuse this in following mNMF run to save the computational time.
-2. A .xlsx of theoretical proteins and their sequences (required)
+2. A .FASTA or an .xlsx of theoretical proteins and their sequences (required)
     * **Required column names:** Protein, Sequence
     * **Example:** Example_theoreticalproteins.xlsx
-3. A .xlsx of peptide retention time calibration (optional)
+3. An .xlsx of peptide retention time calibration (optional)
     * **Required column names:** Protein, Sequence, PepRtimeStart, PepRtimePeak, PepRtimeEnd
     * **Example:** Example_RTcalibration.xlsx
 #### The outputs are: 
 1. A .pkl file of LC/MS experiment
-2. A .xlsx file of NMF result
+2. An .xlsx file of NMF result
     * **Worksheets:** 1.Noisemean, 2.Peakresult, 3.XIC
 3. Three .npz files of V, W, and H matrices
 
@@ -46,10 +46,3 @@ The MS raw data were deposited at the ProteomeXchange Consortium via jPOST partn
 ## Support
 If you have any questions about mNMF, please contact Pasrawin Taechawattananant (pasrawin@gmail.com), Kazuyoshi Yoshii (yoshii@kuis.kyoto-u.ac.jp), or Yasushi Ishihama (yishiham@pharm.kyoto-u.ac.jp)
 
-## Citation
-
-
-## License
-
-
-## Acknowledgement
