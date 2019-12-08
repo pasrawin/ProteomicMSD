@@ -98,20 +98,17 @@ if defParams_:
 # define data
 defData_ = True
 if defData_:
-    msconvert_file = 'Example_mNMF_standard4proteins.pkl' #txt or pkl
-    theoreticalprotein_file = 'Example_theoreticalproteins.xlsx' #xlsx
+    msconvert_file = 'Example_mNMF_standard4proteins.pkl' #mzml or txt or pkl
+    theoreticalprotein_file = 'Example_theoreticalproteins.xlsx' #fasta or xlsx
     RTcalibration_file = 'Example_RTcalibration.xlsx' #xlsx
     output_file = 'Example_output' #filename
 
 ### 001 msconvert read tool
 print '1 msconvert processing'
-if msconvert_file[-3:] = 'txt':
-    Vdata_file == msconvert_reader(msconvert_file)
-elif msconvert_file[-3:] = 'pkl':
-    Vdata_file == msconvert_file
+if msconvert_file[-3:] == 'pkl':
+    Vdata_file = msconvert_file
 else:
-    print ' Warning wrong type of msconvert file'
-    exit()
+    Vdata_file = msconvert_reader(msconvert_file)
 
 #### 2 in silico digestion
 print '2 in silico digestion'
