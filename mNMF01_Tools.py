@@ -2,9 +2,9 @@ from __future__ import division
 import numpy as np
 import pandas as pd
 from scipy import sparse
+from pyteomics import mzml
 
-def msconvert_reader(msconvert_file):
-	print ' from:', str(msconvert_file)
+def text_reader(msconvert_file):
 	## pattern
 	msbasic_match = [
 				'index: ',
@@ -18,9 +18,7 @@ def msconvert_reader(msconvert_file):
 				'cvParam: intensity'
 				]
 	### end pattern
-
 	ms1_head = msbasic_match + msarray_match
-	list_all = []
 	df_ms1 = pd.DataFrame(columns=ms1_head)
 
 	with open(msconvert_file) as infile:
@@ -67,8 +65,40 @@ def msconvert_reader(msconvert_file):
 	df_ms1.rename(columns=col_set, inplace=True)
 	for ar in ['mzarray', 'intarray']:
 		df_ms1[ar] = df_ms1[ar].apply(lambda x: np.asarray(x.strip().split(" ")).astype(float).tolist())
-	store = df_ms1.to_pickle(msconvert_file[:-4]+'.pkl')
-	return str(msconvert_file[:-4]+'.pkl')
+	return df_ms1
+
+def mzml_reader(msconvert_file):
+	ind,mslev,bpmz,bpint,starttime,mzarray,intarray = [],[],[],[],[],[],[]
+	with mzml.read(msconvert_file) as reader:
+		k_count = 0
+		for each_dict in reader:
+			# print each_dict
+			if each_dict['ms level'] == 1:
+				ind.append(each_dict['index'])
+				bpmz.append(each_dict['base peak m/z'])
+				bpint.append(each_dict['base peak intensity'])			
+				mzarray.append(each_dict['m/z array'])
+				intarray.append(each_dict['intensity array'])
+				v_dict = each_dict['scanList'].values()[2][0]
+				starttime.append(v_dict['scan start time'])
+	
+	mslev = [1]*len(ind)
+	mzarray = [x.tolist() for x in mzarray]
+	intarray = [x.tolist() for x in intarray]
+	col_set = ['ind','mslev','bpmz','bpint','starttime','mzarray','intarray']
+	df_ms1 = pd.DataFrame(list(zip(ind,mslev,bpmz,bpint,starttime,mzarray,intarray)), columns=col_set)
+	return df_ms1
+
+def msconvert_reader(msconvert_file):
+	print ' from:', str(msconvert_file)
+	if msconvert_file[-5:] == '.mzML':
+		df_ms1 = mzml_reader(msconvert_file)
+		dub = 5
+	elif msconvert_file[-4:] == '.txt':
+		df_ms1 = text_reader(msconvert_file)
+		dub = 4
+	store = df_ms1.to_pickle(msconvert_file[:-dub]+'.pkl')
+	return str(msconvert_file[:-dub]+'.pkl')
 	
 def mz_index(data_array, mrange_min, mrange_max, mm):
 	# print ' process mz_index'
@@ -107,9 +137,7 @@ def smoothingtime_mat(coomat, window, shift):
 		keepcol.append([col]*len(eachnewcol_nonzero))
 		keepdata.append(np.ravel(eachnewcol[eachnewcol_nonzero]))
 		n += shift
-	# del(coomat)
-	# print ' process return coo_matrix:', timeit.default_timer()
-	# keeprow, keepcol, keepdata = np.ravel(keeprow), np.ravel(keepcol), np.ravel(keepdata)
+
 	keeprow = [item for sublist in keeprow for item in sublist]
 	keepcol = [item for sublist in keepcol for item in sublist]
 	keepdata = [item for sublist in keepdata for item in sublist]
