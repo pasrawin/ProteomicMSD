@@ -23,7 +23,7 @@ Our modified NMF (mNMF) was written in Python 2.7 and tested on Window systems.
 #### The outputs are: 
 1. A .pkl file of LC/MS experiment
 2. An .xlsx file of NMF result
-    * **Worksheets:** 1.Noisemean, 2.Peakresult, 3.XIC
+    * **Worksheets:** 1.XIC, 2.Peakresult
 3. Three .npz files of V, W, and H matrices
 
 ## Installation
