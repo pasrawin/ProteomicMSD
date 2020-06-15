@@ -12,7 +12,8 @@ Our proteomic NMF (protNMF) was written in Python 2.7 and tested on Window syste
 #### The inputs are: 
 1. An .mzML or a .txt file of LC/MS experiment converted by ProteoWizard MSconvert, or a .pkl file of protNMF output (required)
     * **Example:** Example_mNMF_standard4proteins.txt
-    * **Example:** Example_mNMF_standard4proteins.pkl (download [here](https://repository.jpostdb.org/preview/4730115445e7091ad1182a). Currently, available for reviewers only 4330)
+    * **Example:** Example_mNMF_standard4proteins.pkl 
+       * Currently, available for reviewers only. Please use the access key in Supplementary Information.
        * After running protNMF, .pkl will be obtained. You may reuse this in following protNMF run to save the computational time.
 2. A .FASTA or an .xlsx of theoretical proteins and their sequences (required)
     * **Required column names:** Protein, Sequence
@@ -41,7 +42,7 @@ For benchmarking in the paper, there are 2 standard protein mixtures
 * A separation of a thousand ions: 1,057 peptide ions are generated from 476 unique peptides of 4 proteins
 * A separation of nine thousand ions: 9,319 peptide ions are generated from 4,045 unique peptides of 48 proteins
 
-The MS raw data were deposited at the ProteomeXchange Consortium via jPOST partner repository with identifier JPST000663 (currently, available for reviewers only).
+The MS raw data were deposited at the ProteomeXchange Consortium via jPOST partner repository with identifier [JPST000663](https://repository.jpostdb.org/preview/4730115445e7091ad1182a) (Currently, available for reviewers only. Please use the access key in Supplementary Information).
 
 ## Support
 If you have any questions about protNMF, please contact Pasrawin Taechawattananant (pasrawin@gmail.com), Kazuyoshi Yoshii (yoshii@kuis.kyoto-u.ac.jp), or Yasushi Ishihama (yishiham@pharm.kyoto-u.ac.jp)
